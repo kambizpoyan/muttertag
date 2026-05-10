@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html land = "de">
+<html lang="de">
     <head>
-        <meta charset="UFT-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Muttertag</title>
 
@@ -68,7 +68,7 @@
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              padding: 2rem 1 rem;
+              padding: 2rem 1rem;
               font-family: Georgia, serif;
               position: relative;
               overflow: hidden;
@@ -132,8 +132,8 @@
 
             .ecke.ol { top: -2px; left: -2px; } /* oben-links */
             .ecke.or { top: -2px; right: -2px; transform: rotate(90deg); } /* oben-rechts */
-            .ecke.ul { top: -2px; left: -2px; transform: rotate(270deg); } /* unten-links */
-            .ecke.or { top: -2px; right: -2px; transform: rotate(180deg); } /* unten-rechts */
+            .ecke.ul { bottom: -2px; left: -2px; transform: rotate(270deg); } /* unten-links */
+            .ecke.ur { bottom: -2px; right: -2px; transform: rotate(180deg); } /* unten-rechts */
 
             /* =============================================
                GEOMETRISCHE BORDÜREN
@@ -192,7 +192,7 @@
                 text-transform: uppercase;
                 color: #c9a84c;
                 margin-bottom: 0.4rem;
-                animation: steigen 1s ease 0.6 both;
+                animation: steigen 1s ease 0.6s both;
                 opacity: 0;
             }
             /* Großer Titel auf Dari/Persisch */
@@ -310,16 +310,16 @@
                                     180,6 200,24 220,6 240,24 260,6 280,24 300,6 320,24
                                     340,6 360,24 380,6 400,24"
                             stroke="#c9a84c" stroke-width="1" fill="none"/>
-                            <circle cx="20" cy="6" r="1.8" fill="none"/>
-                            <circle cx="60" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="100" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="140" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="180" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="220" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="260" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="300" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="340" cy="6" r="1.8" fill="none"/> 
-                            <circle cx="380" cy="6" r="1.8" fill="none"/>  
+                            <circle cx="20" cy="6" r="1.8" fill="#c9a84c"/>
+                            <circle cx="60" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="100" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="140" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="180" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="220" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="260" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="300" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="340" cy="6" r="1.8" fill="#c9a84c"/> 
+                            <circle cx="380" cy="6" r="1.8" fill="#c9a84c"/>  
                         </svg>
                     </div>
                     <!-- ===============================================
@@ -340,7 +340,7 @@
                     <div class="blumen-reihe">
                         <!-- Blume 1: Weinrot/Rosa -->
                          <div class="blume">
-                            <svg width="58" heigth="58" viewBox="0 0 60 60">
+                            <svg width="58" height="58" viewBox="0 0 60 60">
                                 <!-- 6 Blütenblätter, je 60° gedreht -->
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c2607a"/>
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a84d66" transform="rotate(60, 30,30)"/>
@@ -349,7 +349,7 @@
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c2607a" transform="rotate(240, 30,30)"/>
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a84d66" transform="rotate(300, 30,30)"/>
                                 <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
-                                <circle cx="30" cy="30" r="9" fill="1a3a6b"/>
+                                <circle cx="30" cy="30" r="9" fill="#1a3a6b"/>
                                 <circle cx="30" cy="30" r="5" fill="#c9a84c"/>
                                 <circle cx="30" cy="30" r="2" fill="#0d1f3c"/> 
                             </svg>
@@ -357,7 +357,7 @@
                          </div>
                          <!-- Blume 2: Lila mit 8 Blättern (persische Rosette) -->
                          <div class="blume">
-                            <svg width="68" heigth="68" viewBox="0 0 70 70">
+                            <svg width="68" height="68" viewBox="0 0 70 70">
                                 <!-- 8 Blütenblätter, je 45° gedreht: 360° / 8 = 45° -->
                                 <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7"/>
                                 <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(45, 35,35)"/>
@@ -365,10 +365,10 @@
                                 <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(135, 35,35)"/>
                                 <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(180, 35,35)"/>
                                 <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(225, 35,35)"/>
-                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(225, 35,35)"/>
-                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(225, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(270, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(315, 35,35)"/>
                                 <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
-                                <circle cx="35" cy="35" r="11" fill="1a3a6b"/>
+                                <circle cx="35" cy="35" r="11" fill="#1a3a6b"/>
                                 <circle cx="35" cy="35" r="6.5" fill="#c9a84c"/>
                                 <circle cx="35" cy="35" r="3" fill="#0d1f3c"/> 
                             </svg>
@@ -376,7 +376,7 @@
                          </div>
                           <!-- Blume 3: Gold -->
                          <div class="blume">
-                            <svg width="58" heigth="58" viewBox="0 0 60 60">
+                            <svg width="58" height="58" viewBox="0 0 60 60">
                                 <!-- 6 Blütenblätter, je 60° gedreht -->
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c9a84c"/>
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a8872e" transform="rotate(60, 30,30)"/>
@@ -385,7 +385,7 @@
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c9a84c" transform="rotate(240, 30,30)"/>
                                 <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a8872e" transform="rotate(300, 30,30)"/>
                                 <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
-                                <circle cx="30" cy="30" r="9" fill="1a3a6b"/>
+                                <circle cx="30" cy="30" r="9" fill="#1a3a6b"/>
                                 <circle cx="30" cy="30" r="5" fill="#c9a84c"/>
                                 <circle cx="30" cy="30" r="2" fill="#0d1f3c"/> 
                             </svg>
