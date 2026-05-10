@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html land = "de">
+    <head>
+        <meta charset="UFT-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Muttertag</title>
+
+        <style>
+          /* =============================================
+           ANIMATIONEN (@keyframes)
+           Wie Funktionen - du definierst Start & Ende,
+           der Browser berechnet alles dazwischen.
+           ============================================= */
+
+          /* Blume schwebt sanft auf und ab */
+          @keyframes schweben {
+              0% { transform: translateY(0px);}
+              50% { transform: translateY(-10px); }
+              100% { transform: translateY(0px); }
+            }
+
+          /* Stiel wippt hin und her */
+          @keyframes wippen {
+              0% { transform: rotate(-3deg); }
+              50% { transform: rotate(3deg); }
+              100% { transform: rotate(-3deg); }
+            }
+          /* Blume blüht beim Laden auf */
+          @keyframes aufbluehen {
+              0% { transform: scale(0) rotate(-30deg); opacity: 0;}
+              100% { transform: scale(1) rotate(0deg); opacity: 1;}
+            }
+          /* Elemente gleiten von unten herein */
+          @keyframes steigen {
+              from { opacity: 0; transform: translateY(24px); }
+              to { opacity: 1; transform: translateY(0px); }
+            }
+          /* Blütenblätter fallen von oben nach unten */
+          @keyframes fallen {
+              0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+              10% { opacity: 0.8; }
+              100% { transform: translateY(700px) rotate(360deg); opacity: 0; }
+            }
+          /* Strene blinken im Hintergrund */
+          @keyframes blinken {
+              0% { opacity: 0.2; }
+              50% { opacity: 0.9; }
+              100% { opacity: 0.2; }
+            }
+          /* Rosette pulsieren sanft */
+          @keyframes puls {
+              0% { transform: scale(1); }
+              50% { transform: scale(1.07); }
+              100% { transform: scale(1); }
+            }
+          /* =============================================
+              GRUNDLAYOUT
+           ============================================= */
+          * {
+              box-sizing: border-box;
+              margin: 0;
+              padding: 0;
+            }
+          body {
+              background: #0d1f3c; /* Tiefes Nachtblau - wie Lapislazuli */
+              min-height: 100vh;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 2rem 1 rem;
+              font-family: Georgia, serif;
+              position: relative;
+              overflow: hidden;
+            }
+          /* =============================================
+             HINTERGRUND-EFFEKTE
+          ============================================= */
+          /* Goldeme Sterne im Hintergrund (per JS erzeugt) */
+          .bg-stern {
+              position: absolute;
+              border-radius: 50%;
+              background: #c9a84c;
+              animation: blinken ease-in-out infinite;
+            }
+          /* Container für fallende Blütenblätter */
+          #blätter {
+              position: absolute;
+              top: 0; left: 0; right: 0; bottom: 0;
+              pointer-events: none; /* Klicks gehen durch */
+              overflow: hidden;
+            }
+          /* Einzelnes fallendes Blütenblatt */
+          .blatt {
+              position: absolute;
+              width: 10px;
+              height: 16px;
+              border-radius: 50% 0 50% 0; /*organische Blattform */
+              opacity: 0;
+              animation: fallen linear infinite;
+            }
+            /* =============================================
+              GOLDENER RAHMEN
+            ============================================= */
+            /* Äußerer dicker Goldrahmen */
+            .rahmen-aussen {
+                width: 100%;
+                max-width: 560px;
+                border: 2px solid #c9a84c;
+                border-radius: 4px;
+                padding: 6px;
+                position: relative;
+                z-index: 2;
+                animation: steigen 1.2s ease both;
+            }
+
+            /* Innerer dünner Goldrahmen */
+            .rahmen-innen {
+                border: 1px solid rgba(201, 168, 76, 0.45);
+                border-radius: 2px;
+                padding: 1.8rem 1.5rem;
+                background: #0d1f3c;
+                text-align: center;
+            }
+            /* Eckverzierungen - vier Ecken, je um 90° gedreht */
+            .ecke {
+                position: absolute;
+                width: 28px;
+                height: 28px;
+            }
+            .ecke svg { width: 100%; height: 100%; }
+
+            .ecke.ol { top: -2px; left: -2px; } /* oben-links */
+            .ecke.or { top: -2px; right: -2px; transform: rotate(90deg); } /* oben-rechts */
+            .ecke.ul { top: -2px; left: -2px; transform: rotate(270deg); } /* unten-links */
+            .ecke.or { top: -2px; right: -2px; transform: rotate(180deg); } /* unten-rechts */
+
+            /* =============================================
+               GEOMETRISCHE BORDÜREN
+               Zickzack-Linie mit Goldpunkten – typisches
+               islamisch-geometrisches Rankmuster
+            ============================================= */
+            .bordure { margin-bottom: 1rem; animation: steigen 1s ease 0.3s both; opacity: 0; }
+            .bordure-unten { margin-top: 1rem; animation: steigen 1s ease 1.4s both; opacity: 0; }
+
+            /* =============================================
+               BLUMEN
+            ============================================= */
+            /* Reihe mit drei Blumen */
+            .blumen-reihe {
+                display: flex;
+                gap: 1.8rem;
+                justify-content: center;
+                margin-bottom: 1.2rem;
+                animation: steigen 1s ease 0.4s both;
+                opacity: 0;
+            }
+            /* Einzelne Blume */
+            .blume {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                animation: schweben ease-in-out infinite;
+            }
+            /* Jede Blume schwingt in eigenem Rhythmus */
+            .blume:nth-child(1) { animation-duration: 3.5s; animation-delay: 0.0s; }
+            .blume:nth-child(2) { animation-duration: 4.0s; animation-delay: 0.5s; }
+            .blume:nth-child(3) { animation-duration: 3.8s; animation-delay: 1.0s; }
+            /* SVG blüht verzögert auf */
+            .blume svg { animation: aufbluehen 0.8s ease forwards; opacity: 0;}
+            .blume:nth-child(1) { animation-delay: 0.3s; }
+            .blume:nth-child(2) { animation-delay: 0.6s; }
+            .blume:nth-child(3) { animation-delay: 0.9s; }
+            /* Grüner Stiel */
+            .stiel {
+                width: 3px;
+                height: 38px;
+                background: linear-gradient(to bottom, #4caf50, #2e7d32);
+                border-radius: 2px;
+                animation: wippen ease-in-out infinite;
+            }
+            .blume:nth-child(1) .stiel { animation-duration: 3.5s; }
+            .blume:nth-child(2) .stiel { animation-duration: 4.0s; animation-delay: 0.5s; height: 48px; }
+            .blume:nth-child(3) .stiel { animation-duration: 3.8s; animation-delay: 1.0s; }
+            /* =============================================
+               TEXT & GEDICHT
+            ============================================= */
+            /* Kleiner Schriftzug auf Deutsch */
+            .titel-de {
+                font-size: 11px;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                color: #c9a84c;
+                margin-bottom: 0.4rem;
+                animation: steigen 1s ease 0.6 both;
+                opacity: 0;
+            }
+            /* Großer Titel auf Dari/Persisch */
+            .titel-fa {
+                font-size: 28px;
+                color: #e8d5a0;
+                direction: rtl; /* Dari: von rechts nach links */
+                line-height: 1.7;
+                margin-bottom: 0.2rem;
+                animation: steigen 1s ease 0.8s both;
+                opacity: 0;
+            }
+            /* Persische Rosette pulisiert */
+            .rosette-wrap {
+                animation: puls 4s ease-in-out infinite;
+                margin: 0.6rem auto;
+            }
+            /* Gedichtblock mit goldenen Trennlinien */
+            .gedicht-block {
+                border-top: 1px solid rgba(201, 168, 76, 0.3);
+                border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+                padding: 1.1rem 0.5rem;
+                margin: 0.5rem 0 0.8rem;
+                animation: steigen 1s ease 1.1s both;
+                opacity: 0;
+            }
+            /* Rumi-Gedicht auf Dari */
+            .gedicht-fa {
+                font-size: 17px;
+                line-height: 2.4;
+                color: #e8d5a0;
+                direction: rtl;
+                text-align: right;
+            }
+            /* Deutsche Übersetzung */
+            .gedicht-de {
+                margin-top: 0.9rem;
+                font-size: 12.5px;
+                line-height: 1.9;
+                color: #9aadca; /* Helles Blaugrau auf dunklem Hintergrund */
+                font-style: italic;
+                direction: ltr;
+                text-align: center;
+                border-top: 1px solid rgba(201, 168, 76, 0.2);
+                padding-top: 0.7rem;
+            }
+            /* Autorenzeile */
+            .autor {
+                font-size: 11px;
+                color: #c9a84c;
+                letter-spacing: 2px;
+                margin-top: 0.5rem;
+                animation: steigen 1s ease 1.3s both;
+                opacity: 0;
+            }
+            /* Abschlusszeile auf Dari */
+            .abschluss {
+                font-size: 13px;
+                color: #c9a84c;
+                margin-top: 0.8rem;
+                letter-spacing: 1px;
+                animation: steigen 1s ease 1.5s both;
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Goldene Hintergrundsterne (per JavaScript erzeugt) -->
+         <div id="sterne" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></div>
+
+         <!-- Fallende Blütenblätter (per JavaScript erzeugt) -->
+          <div id="blätter"></div>
+          <!-- =============================================
+                 GOLDENER DOPPELRAHMEN
+            ============================================= -->
+            <div class="rahmen-aussen">
+                <!-- Eckverzierungen: kleines SVG-Ornament, 4x gedreht -->
+                 <div class="ecke ol">
+                    <svg viewBox="0 0 28 28" fill="none">
+                        <path d="M2 26 L2 2 L26 2" stroke="#c9a84c" stroke-width="1.5"/>
+                        <circle cx="2" cy="2" r="3" fill="#c9a84c"/>
+                        <path d="M8 2 Q14 8 8 14 Q14 8 20 14" stroke="#c9a84c" stroke-width=".8" fill="none"/>
+                    </svg>
+                 </div>
+                 <div class="ecke or">
+                    <svg viewBox="0 0 28 28" fill="none">
+                        <path d="M2 26 L2 2 L26 2" stroke="#c9a84c" stroke-width="1.5"/>
+                        <circle cx="2" cy="2" r="3" fill="#c9a84c"/>
+                        <path d="M8 2 Q14 8 8 14 Q14 8 20 14" stroke="#c9a84c" stroke-width=".8" fill="none"/>
+                    </svg>
+                 </div>
+                 <div class="ecke ul">
+                    <svg viewBox="0 0 28 28" fill="none">
+                        <path d="M2 26 L2 2 L26 2" stroke="#c9a84c" stroke-width="1.5"/>
+                        <circle cx="2" cy="2" r="3" fill="#c9a84c"/>
+                        <path d="M8 2 Q14 8 8 14 Q14 8 20 14" stroke="#c9a84c" stroke-width=".8" fill="none"/>
+                    </svg>
+                 </div>
+                 <div class="ecke ur">
+                    <svg viewBox="0 0 28 28" fill="none">
+                        <path d="M2 26 L2 2 L26 2" stroke="#c9a84c" stroke-width="1.5"/>
+                        <circle cx="2" cy="2" r="3" fill="#c9a84c"/>
+                        <path d="M8 2 Q14 8 8 14 Q14 8 20 14" stroke="#c9a84c" stroke-width=".8" fill="none"/>
+                    </svg>
+                 </div>
+                 <div class="rahmen-innen">
+                    <!-- OBERE GOLDENE BORDÜRE
+                         Zickzack-Linie mit Goldpunkten an jedem Scheitelpunkt
+                    -->
+                    <div class="bordure">
+                        <svg width="100%" viewBox="0 0 400 30" fill="none">
+                            <line x1="0" y1="15" x2="400" y2="15" stroke="#c9a84c" stroke-width=".4" opacity=".4"/>
+                            <polyline
+                            points="0,24 20,6 40,24 60,6 80,24 100,6 120,24 140,6 160,24
+                                    180,6 200,24 220,6 240,24 260,6 280,24 300,6 320,24
+                                    340,6 360,24 380,6 400,24"
+                            stroke="#c9a84c" stroke-width="1" fill="none"/>
+                            <circle cx="20" cy="6" r="1.8" fill="none"/>
+                            <circle cx="60" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="100" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="140" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="180" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="220" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="260" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="300" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="340" cy="6" r="1.8" fill="none"/> 
+                            <circle cx="380" cy="6" r="1.8" fill="none"/>  
+                        </svg>
+                    </div>
+                    <!-- ===============================================
+                         DREI BLUMEN (SVG)
+
+                         Blume 1 (Rosa): 6 Blütenblätter, je 60° versetzt
+                         Blume 2 (Lila): 8 Blütenblätter, je 45° versetzt ← persische Rosette
+                         Blume 3 (Gold):   6 Blütenblätter, je 60° versetzt
+
+                         Jede Blume hat einen dunkelblauen Kern mit Goldmittelpunkt
+                         - wie eine Miniatur-Rosette aus persischen Kacheln.
+
+                         Ellipse-Prinzip:
+                           cx/cy = Spitze des Blatts (oben, also cy=14 bei 60px-SVG)
+                           transform="rotate(GRAD, MittelpunktX, MittelpunktY)"
+                           → dreht das Blatt um den Blumenmittelpunkt
+                    ============================================= -->
+                    <div class="blumen-reihe">
+                        <!-- Blume 1: Weinrot/Rosa -->
+                         <div class="blume">
+                            <svg width="58" heigth="58" viewBox="0 0 60 60">
+                                <!-- 6 Blütenblätter, je 60° gedreht -->
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c2607a"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a84d66" transform="rotate(60, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c2607a" transform="rotate(120, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a84d66" transform="rotate(180, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c2607a" transform="rotate(240, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a84d66" transform="rotate(300, 30,30)"/>
+                                <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
+                                <circle cx="30" cy="30" r="9" fill="1a3a6b"/>
+                                <circle cx="30" cy="30" r="5" fill="#c9a84c"/>
+                                <circle cx="30" cy="30" r="2" fill="#0d1f3c"/> 
+                            </svg>
+                            <div class="stiel"></div>
+                         </div>
+                         <!-- Blume 2: Lila mit 8 Blättern (persische Rosette) -->
+                         <div class="blume">
+                            <svg width="68" heigth="68" viewBox="0 0 70 70">
+                                <!-- 8 Blütenblätter, je 45° gedreht: 360° / 8 = 45° -->
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(45, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(90, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(135, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(180, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(225, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#7b5ea7" transform="rotate(225, 35,35)"/>
+                                <ellipse cx="35" cy="16" rx="10" ry="16" fill="#5e3d8f" transform="rotate(225, 35,35)"/>
+                                <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
+                                <circle cx="35" cy="35" r="11" fill="1a3a6b"/>
+                                <circle cx="35" cy="35" r="6.5" fill="#c9a84c"/>
+                                <circle cx="35" cy="35" r="3" fill="#0d1f3c"/> 
+                            </svg>
+                            <div class="stiel"></div>
+                         </div>
+                          <!-- Blume 3: Gold -->
+                         <div class="blume">
+                            <svg width="58" heigth="58" viewBox="0 0 60 60">
+                                <!-- 6 Blütenblätter, je 60° gedreht -->
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c9a84c"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a8872e" transform="rotate(60, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c9a84c" transform="rotate(120, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a8872e" transform="rotate(180, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#c9a84c" transform="rotate(240, 30,30)"/>
+                                <ellipse cx="30" cy="14" rx="9" ry="14" fill="#a8872e" transform="rotate(300, 30,30)"/>
+                                <!-- Kern: Dunkelblau + Gold + Mittelpunkt -->
+                                <circle cx="30" cy="30" r="9" fill="1a3a6b"/>
+                                <circle cx="30" cy="30" r="5" fill="#c9a84c"/>
+                                <circle cx="30" cy="30" r="2" fill="#0d1f3c"/> 
+                            </svg>
+                            <div class="stiel"></div>
+                         </div>
+                    </div>
+                    <!-- Ende Blumenreihe -->
+
+                    <div class="titel-de">Alles Gute zum Muttertag</div>
+                    <div class="titel-fa">روز مادر مبارک</div>
+
+                    <!-- PERSISCHE ROSETTE
+                      8-zackig, wie auf klassischen Kacheln aus Isfahan.
+                      Gleiche Ellipsen-Technik wie die Blume, aber kleiner
+                      und mit präziseren 45°-Schritten.
+                    -->
+                   <div class="rosette-wrap">
+        <svg width="52" height="52" viewBox="0 0 60 60">
+          <g transform="translate(30,30)">
+            <!-- 8 Blätter um den Ursprung (0,0) -->
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(45)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(90)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(135)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(225)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(270)"/>
+            <ellipse cx="0" cy="-12" rx="3.5" ry="10" fill="#c9a84c" opacity=".9" transform="rotate(315)"/>
+            <!-- Konzentrischer Kern -->
+            <circle r="8"   fill="#1a3a6b"/>
+            <circle r="5"   fill="#c9a84c"/>
+            <circle r="2.2" fill="#0d1f3c"/>
+          </g>
+        </svg>
+      </div>
+
+
+      <!-- RUMI-GEDICHT
+           direction: rtl  → Text läuft von rechts nach links (Dari/Persisch)
+           <br>            → manueller Zeilenumbruch (kein automatischer Umbruch in Dari)
+      -->
+      <div class="gedicht-block">
+        <div class="gedicht-fa">
+          عشقِ تو جانم را از تن به آسمان برد<br>
+          تو مرا از هر دو عالم بالا بردی<br>
+          می‌خواهم آفتاب تو به قطره‌هایم رسد<br>
+          تا گرمایت روحم را چون ابر بالا برد
+        </div>
+        <div class="gedicht-de">
+          Deine Liebe hebt meine Seele vom Körper in den Himmel —<br>
+          Du erhebst mich über beide Welten hinaus.<br>
+          Ich sehne mich, dass deine Sonne meine Tropfen erreicht,<br>
+          damit deine Wärme meine Seele wie eine Wolke emporträgt.
+        </div>
+      </div>
+
+      <div class="autor">— مولانا جلال‌الدین رومی بلخی —</div>
+
+
+      <!-- UNTERE GOLDENE BORDÜRE (gespiegelt zur oberen) -->
+      <div class="bordure-unten">
+        <svg width="100%" viewBox="0 0 400 30" fill="none">
+          <polyline
+            points="0,6 20,24 40,6 60,24 80,6 100,24 120,6 140,24 160,6
+                    180,24 200,6 220,24 240,6 260,24 280,6 300,24 320,6
+                    340,24 360,6 380,24 400,6"
+            stroke="#c9a84c" stroke-width="1" fill="none"/>
+          <circle cx="20"  cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="60"  cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="100" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="140" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="180" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="220" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="260" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="300" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="340" cy="24" r="1.8" fill="#c9a84c"/>
+          <circle cx="380" cy="24" r="1.8" fill="#c9a84c"/>
+          <line x1="0" y1="26" x2="400" y2="26" stroke="#c9a84c" stroke-width=".4" opacity=".4"/>
+        </svg>
+      </div>
+
+      <!-- Abschluss auf Dari: "Für die beste Mutter der Welt" -->
+      <div class="abschluss">✦ &nbsp; برای بهترین مادر دنیا &nbsp; ✦</div>
+
+    </div>
+  </div>
+  <!-- Ende Rahmen -->
+
+
+  <!-- =============================================
+       JAVASCRIPT
+       Erzeugt dynamisch:
+         1. Goldene Hintergrundsterne (45 Stück)
+         2. Fallende Blütenblätter   (16 Stück)
+       Beide in zufälliger Position, Größe und Geschwindigkeit.
+  ============================================= -->
+  <script>
+
+    // --- 1. GOLDENE STERNE erzeugen ---
+    const sterneContainer = document.getElementById('sterne');
+
+    for (let i = 0; i < 45; i++) {
+      let stern = document.createElement('div');
+      stern.className = 'bg-stern';
+
+      // 70% kleine Sterne (2px), 30% etwas größer (3px)
+      const groesse = Math.random() < 0.7 ? 2 : 3;
+
+      stern.style.width            = groesse + 'px';
+      stern.style.height           = groesse + 'px';
+      stern.style.left             = Math.random() * 100 + '%';
+      stern.style.top              = Math.random() * 100 + '%';
+      stern.style.animationDuration = (2 + Math.random() * 4) + 's';
+      stern.style.animationDelay   = (Math.random() * 4) + 's';
+      stern.style.opacity          = 0.2 + Math.random() * 0.5;
+
+      sterneContainer.appendChild(stern);
+    }
+
+
+    // --- 2. FALLENDE BLÜTENBLÄTTER erzeugen ---
+    // Farben passend zum persischen Stil: Gold, Lila, Weinrot
+    const blattFarben = ['#c9a84c', '#7b5ea7', '#c2607a', '#a84d66', '#5e3d8f'];
+    const blätterContainer = document.getElementById('blätter');
+
+    for (let i = 0; i < 16; i++) {
+      let blatt = document.createElement('div');
+      blatt.className = 'blatt';
+
+      blatt.style.left             = Math.random() * 100 + '%';
+      blatt.style.background       = blattFarben[Math.floor(Math.random() * blattFarben.length)];
+      blatt.style.animationDuration = (7 + Math.random() * 8) + 's';
+      blatt.style.animationDelay   = (Math.random() * 12) + 's';
+      blatt.style.transform        = 'rotate(' + (Math.random() * 360) + 'deg)';
+      blatt.style.opacity          = '0.6';
+
+      blätterContainer.appendChild(blatt);
+    }
+
+  </script>
+
+</body>
+</html>
